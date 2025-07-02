@@ -1,20 +1,17 @@
 {
-    "name": "mocscode-backend",
+    "name": "mocscode-chat-service",
     "version": "1.0.0",
     "type": "module",
-    "description": "Backend server for chat and collaborative editing application",
+    "description": "Chat and Socket.IO service for collaborative application",
     "main": "index.js",
     "scripts": {
-      "start": "concurrently \"node index.js\" \"HOST=localhost PORT=4500 npx y-websocket\"",
-      "dev:server": "node index.js",
-      "dev:yjs": "HOST=localhost PORT=4500 npx y-websocket"
+      "start": "node index.js",
+      "dev": "node index.js"
     },
     "dependencies": {
       "express": "^4.18.2",
       "socket.io": "^4.8.1",
-      "cors": "^2.8.5",
-      "y-websocket": "^3.0.0",
-      "concurrently": "^9.2.0"
+      "cors": "^2.8.5"
     },
     "engines": {
       "node": ">=18.0.0"
@@ -22,11 +19,9 @@
     "keywords": [
       "express",
       "socket.io",
-      "websocket",
-      "yjs",
-      "collaboration",
-      "chat"
+      "chat",
+      "websocket"
     ],
     "author": "Michael Durden & Riley Sweeting",
     "license": "ISC"
-  }
+}

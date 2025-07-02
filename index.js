@@ -3,7 +3,7 @@ import http from 'http';
 import cors from 'cors';
 import { Server } from 'socket.io';
 import { setupChatSocket } from './chat-socket.js';
-import { ALLOWED_ORIGINS, SOCKET_IO_OPTIONS, PORT, YJS_PATH } from './config.js';
+import { ALLOWED_ORIGINS, SOCKET_IO_OPTIONS, PORT } from './config.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -18,30 +18,29 @@ app.use(cors({
 
 app.use(express.json());
 
-// --- WebSocket and Socket.IO Setup ---
+// --- Socket.IO Setup ---
 const io = new Server(server, SOCKET_IO_OPTIONS);
-const docs = new Map();
-
 setupChatSocket(io);
 
 // --- Health Check Endpoint ---
 app.get('/health', (req, res) => {
   res.json({
     status: 'ok',
-    connections: wss.clients.size,
-    documents: docs.size
+    service: 'chat-service',
+    socketConnections: io.engine.clientsCount,
+    timestamp: new Date().toISOString()
   });
 });
 
 // --- Start Server ---
 server.listen(PORT, () => {
-  console.log(`Server running HTTP on port ${PORT}`);
+  console.log(`Chat Service running on port ${PORT}`);
 });
 
 // --- Graceful Shutdown ---
 process.on('SIGTERM', () => {
-  console.log('Shutting down gracefully...');
-  wss.close(() => {
+  console.log('Chat Service shutting down gracefully...');
+  io.close(() => {
     server.close(() => {
       process.exit(0);
     });
