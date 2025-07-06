@@ -18,11 +18,11 @@ app.use(cors({
 
 app.use(express.json());
 
-// --- Socket.IO Setup ---
+// Socket.IO Setup
 const io = new Server(server, SOCKET_IO_OPTIONS);
 setupChatSocket(io);
 
-// --- Health Check Endpoint ---
+// Health Check Endpoint
 app.get('/health', (req, res) => {
   res.json({
     status: 'ok',
@@ -32,12 +32,12 @@ app.get('/health', (req, res) => {
   });
 });
 
-// --- Start Server ---
+// Start Server
 server.listen(PORT, () => {
   console.log(`Chat Service running on port ${PORT}`);
 });
 
-// --- Graceful Shutdown ---
+// Graceful Shutdown
 process.on('SIGTERM', () => {
   console.log('Chat Service shutting down gracefully...');
   io.close(() => {
