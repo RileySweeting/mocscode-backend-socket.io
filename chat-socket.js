@@ -99,7 +99,7 @@ export function setupChatSocket(io) {
           return;
         }
         
-        console.log(`Message from ${user.username} in ${user.roomId}: ${message.username}`);
+        console.log(`Message from ${user.userName} in ${user.roomId}: ${message.username}`);
         
         // Broadcast to all users in the room (including sender for confirmation)
         io.to(user.roomId).emit('new_message', message);
