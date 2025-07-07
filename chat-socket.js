@@ -86,7 +86,7 @@ export function setupChatSocket(io) {
         const message = {
           id: messageData.id,
           user_id: messageData.user_id,
-          user_name: messageData.user_name,
+          username: messageData.username,
           content: messageData.content,
           timestamp: messageData.timestamp,
           room: messageData.room,
@@ -99,10 +99,12 @@ export function setupChatSocket(io) {
           return;
         }
         
-        console.log(`Message from ${user.userName} in ${user.roomId}: ${message.content}`);
+        console.log(`Message from ${user.username} in ${user.roomId}: ${message.username}`);
         
         // Broadcast to all users in the room (including sender for confirmation)
         io.to(user.roomId).emit('new_message', message);
+
+        console.log("Message broadcasted to room: ", user.roomId, message.timestamp);
         
         // Send delivery confirmation to sender
         socket.emit('message_delivered', { messageId: message.id });
